@@ -52,7 +52,7 @@ Proje; kişisel bilgilerin, deneyimlerin, projelerin ve yeteneklerin dinamik ola
 
 ### Ana Sayfa
 
-![Ana Sayfa](MYAcademi_PortfolioProject/docs/screenshots/homepage.jpeg)
+![Ana Sayfa](docs/screenshots/homepage.jpeg)
 
 ### İletişim Sayfası
 
