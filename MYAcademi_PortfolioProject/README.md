@@ -56,7 +56,7 @@ Proje; kişisel bilgilerin, deneyimlerin, projelerin ve yeteneklerin dinamik ola
 
 ### İletişim Sayfası
 
-![İletişim Sayfası](docs/screenshots/contact.jpg)
+![İletişim Sayfası](MYAcademi_PortfolioProject/docs/screenshots/contact.jpg)
 
 ### Yönetim Paneli (Dashboard)
 
