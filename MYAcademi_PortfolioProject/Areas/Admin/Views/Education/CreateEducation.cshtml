@@ -1,0 +1,74 @@
+﻿@model MYAcademi_PortfolioProject.Entities.Education
+
+@{
+    ViewData["Title"] = "CreateEducation";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml"; 
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <br /> 
+        <h4 class="page-title">Yeni Eğitim Bilgisi Ekle</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <br /> 
+                        <div class="card-title">Eğitim Giriş Formu</div>
+                    </div>
+                    <br /> 
+                    <form method="post">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Eğitim Seviyesi (Örn: Yüksek Lisans / Ön Lisans)</label>
+                                <select asp-for="Degree" class="form-control">
+                                    <option value="">-- Eğitim Seviyesi Seçiniz --</option>
+                                    <option value="Ön Lisans">Ön Lisans</option>
+                                    <option value="Lisans">Lisans</option>
+                                    <option value="Yüksek Lisans">Yüksek Lisans</option>
+                                    <option value="Doktora">Doktora</option>
+                                </select>
+                                <span asp-validation-for="Degree" class="text-danger"></span>
+                            </div>
+                            <br /> 
+                            <div class="form-group">
+                                <label>Okul Adı (Opsiyonel)</label>
+                                <input type="text" asp-for="SchoolName" class="form-control" placeholder="Okul adını giriniz..." />
+                            </div>
+                            <br /> 
+                            <div class="form-group">
+                                <label>Bölüm / Alan</label>
+                                <input type="text" asp-for="Department" class="form-control" placeholder="Bölüm adını giriniz..." />
+                                <span asp-validation-for="Department" class="text-danger"></span>
+                            </div>
+                            <br /> 
+                            <div class="form-group">
+                                <label>Açıklama</label>
+                                <textarea asp-for="Description" rows="4" class="form-control" placeholder="Açıklama giriniz..."></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            <br /> 
+                            <div class="form-group">
+                                <label>Kategori / Etiket (Örn: Akademik / Mezuniyet)</label>
+                                <select asp-for="Category" class="form-control">
+                                    <option value="">-- Kategori Seçiniz --</option>
+                                    <option value="Akademik">Akademik</option>
+                                    <option value="Mezuniyet">Mezuniyet</option>
+                                    <option value="Devam Ediyor">Devam Ediyor</option>
+                                    <option value="Sertifika">Sertifika</option>
+                                    <option value="Kurs">Kurs</option>
+                                </select>
+                                <span asp-validation-for="Category" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br /> <br />
+                        <div class="card-action">
+                            <button type="submit" class="btn btn-success">Eğitimi Kaydet</button>
+                            <a href="/Admin/Education/EducationList" class="btn btn-danger">İptal</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

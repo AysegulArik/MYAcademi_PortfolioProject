@@ -1,0 +1,49 @@
+﻿@model MYAcademi_PortfolioProject.Entities.Contact
+
+@{
+    ViewData["Title"] = "İletişim Bilgisi Güncelle";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container">
+    <br />
+
+    <h4 class="page-title">İletişim Bilgisi Güncelle</h4>
+
+    <form asp-area="Admin"
+          asp-controller="Contact"
+          asp-action="UpdateContact"
+          method="post">
+
+        <input type="hidden" asp-for="ContactId" />
+
+        <label>Başlık</label>
+        <input type="text" asp-for="Title" class="form-control" />
+        <br />
+
+        <label>Email</label>
+        <input type="email" asp-for="Email" class="form-control" />
+        <br />
+
+        <label>Telefon</label>
+        <input type="tel" asp-for="PhoneNumber" class="form-control" />
+        <br />
+
+        <label>Lokasyon</label>
+        <input type="text" asp-for="Location" class="form-control" />
+        <br />
+
+        <label>Açıklama</label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+        <br />
+
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-save"></i> Güncelle
+        </button>
+
+        <a href="/Admin/Contact/ContactList" class="btn btn-secondary">
+            Vazgeç
+        </a>
+
+    </form>
+</div>

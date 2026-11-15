@@ -1,0 +1,111 @@
+﻿
+@model MYAcademi_PortfolioProject.Entities.About
+
+@{
+    ViewData["Title"] = "Hakkımda İçeriğini Düzenle";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container">
+
+    <h4 class="page-title">Hakkımda İçeriğini Düzenle</h4>
+
+    <div class="card">
+        <div class="card-body">
+
+            <form method="post" enctype="multipart/form-data">
+
+                <input type="hidden" asp-for="AboutId" />
+                <input type="hidden" asp-for="ImageUrl" />
+
+                <div class="form-group mb-3">
+                    <label>Başlık</label>
+                    <input type="text" asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Açıklama</label>
+                    <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>İkinci Açıklama</label>
+                    <textarea asp-for="Description2" class="form-control" rows="4"></textarea>
+                    <span asp-validation-for="Description2" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Mevcut Profil Fotoğrafı</label>
+                    <br />
+                    <img src="@Model.ImageUrl"
+                         width="150"
+                         height="150"
+                         style="object-fit: cover; border-radius: 8px;" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Yeni Profil Fotoğrafı Seç</label>
+                    <input type="file"
+                           name="imageFile"
+                           class="form-control"
+                           accept=".jpg,.jpeg,.png,.webp" />
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Deneyim</label>
+                    <input type="text" asp-for="Experience" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Eğitim Sayısı</label>
+                    <input type="text" asp-for="EducationCount" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Öğrenci Sayısı</label>
+                    <input type="text" asp-for="StudentCount" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Profil Bilgisi</label>
+                    <input type="text" asp-for="ProfileInfo" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Pozisyon Başlığı</label>
+                    <input type="text" asp-for="PositionTitle" class="form-control" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>CV Dosya Yolu</label>
+                    <input type="text" asp-for="ResumeUrl" class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Kaydet
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
+            Swal.fire({
+                title: 'Başarılı!',
+                text: '@TempData["SuccessMessage"]',
+                icon: 'success',
+                confirmButtonText: 'Tamam'
+            });
+        </script>
+    }
+}

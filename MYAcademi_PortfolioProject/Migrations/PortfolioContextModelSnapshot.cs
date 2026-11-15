@@ -22,6 +22,77 @@ namespace MYAcademi_PortfolioProject.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.About", b =>
+                {
+                    b.Property<int>("AboutId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AboutId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EducationCount")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Experience")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PositionTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProfileInfo")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResumeUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StudentCount")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("AboutId");
+
+                    b.ToTable("Abouts");
+                });
+
+            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.Category", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoryId"));
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CategorySlug")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CategoryId");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.Contact", b =>
                 {
                     b.Property<int>("ContactId")
@@ -53,6 +124,43 @@ namespace MYAcademi_PortfolioProject.Migrations
                     b.HasKey("ContactId");
 
                     b.ToTable("Contacts");
+                });
+
+            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.Education", b =>
+                {
+                    b.Property<int>("EducationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EducationId"));
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Degree")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("SchoolName")
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("EducationId");
+
+                    b.ToTable("Educations");
                 });
 
             modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.Experience", b =>
@@ -97,11 +205,13 @@ namespace MYAcademi_PortfolioProject.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Greeting")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("MainImageUrl")
                         .IsRequired()
@@ -109,7 +219,8 @@ namespace MYAcademi_PortfolioProject.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.HasKey("HeroSectionId");
 
@@ -174,6 +285,79 @@ namespace MYAcademi_PortfolioProject.Migrations
                     b.ToTable("Messages");
                 });
 
+            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.Project", b =>
+                {
+                    b.Property<int>("ProjectId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProjectId"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("GithubUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsFeatured")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ProjectTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ProjectUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StatusIcon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StatusText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProjectId");
+
+                    b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.ProjectCategory", b =>
+                {
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectId", "CategoryId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("ProjectCategories");
+                });
+
+            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.ProjectSkillItem", b =>
+                {
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillItemId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProjectId", "SkillItemId");
+
+                    b.HasIndex("SkillItemId");
+
+                    b.ToTable("ProjectSkillItems");
+                });
+
             modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.Skill", b =>
                 {
                     b.Property<int>("SkillId")
@@ -207,34 +391,109 @@ namespace MYAcademi_PortfolioProject.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SkillItemId"));
 
-                    b.Property<int>("SkillId")
-                        .HasColumnType("int");
-
                     b.Property<string>("SkillItemTitle")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("SkillItemId");
 
-                    b.HasIndex("SkillId");
-
                     b.ToTable("SkillItems");
                 });
 
-            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.SkillItem", b =>
+            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.SkillSkillItem", b =>
+                {
+                    b.Property<int>("SkillId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SkillItemId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SkillId", "SkillItemId");
+
+                    b.HasIndex("SkillItemId");
+
+                    b.ToTable("SkillSkillItems");
+                });
+
+            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.ProjectCategory", b =>
+                {
+                    b.HasOne("MYAcademi_PortfolioProject.Entities.Category", "Category")
+                        .WithMany("ProjectCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MYAcademi_PortfolioProject.Entities.Project", "Project")
+                        .WithMany("ProjectCategories")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.ProjectSkillItem", b =>
+                {
+                    b.HasOne("MYAcademi_PortfolioProject.Entities.Project", "Project")
+                        .WithMany("ProjectSkillItems")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MYAcademi_PortfolioProject.Entities.SkillItem", "SkillItem")
+                        .WithMany("ProjectSkillItems")
+                        .HasForeignKey("SkillItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("SkillItem");
+                });
+
+            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.SkillSkillItem", b =>
                 {
                     b.HasOne("MYAcademi_PortfolioProject.Entities.Skill", "Skill")
-                        .WithMany("SkillItems")
+                        .WithMany("SkillSkillItems")
                         .HasForeignKey("SkillId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("MYAcademi_PortfolioProject.Entities.SkillItem", "SkillItem")
+                        .WithMany("SkillSkillItems")
+                        .HasForeignKey("SkillItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Skill");
+
+                    b.Navigation("SkillItem");
+                });
+
+            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.Category", b =>
+                {
+                    b.Navigation("ProjectCategories");
+                });
+
+            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.Project", b =>
+                {
+                    b.Navigation("ProjectCategories");
+
+                    b.Navigation("ProjectSkillItems");
                 });
 
             modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.Skill", b =>
                 {
-                    b.Navigation("SkillItems");
+                    b.Navigation("SkillSkillItems");
+                });
+
+            modelBuilder.Entity("MYAcademi_PortfolioProject.Entities.SkillItem", b =>
+                {
+                    b.Navigation("ProjectSkillItems");
+
+                    b.Navigation("SkillSkillItems");
                 });
 #pragma warning restore 612, 618
         }

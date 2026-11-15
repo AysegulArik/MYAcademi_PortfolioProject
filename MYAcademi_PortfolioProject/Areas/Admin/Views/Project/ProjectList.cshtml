@@ -1,0 +1,141 @@
+﻿@model List<MYAcademi_PortfolioProject.Entities.Project>
+
+@{
+    ViewData["Title"] = "Proje Listesi";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container">
+
+    <h4 class="page-title">Projelerim</h4>
+
+    <div class="card">
+        <div class="card-header">
+            <a href="/Admin/Project/ProjectCreat" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i> Yeni Proje Ekle
+            </a>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover">
+
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Proje Adı</th>
+                        <th>Kategori</th>
+                        <th>Teknolojiler</th>
+                        <th>Sıra</th>
+                        <th>Öne Çıkan</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ProjectId</td>
+
+                            <td>@item.ProjectTitle</td>
+
+                            <td>
+                                @foreach (var category in item.ProjectCategories)
+                                {
+                                    <span class="badge bg-primary me-1">
+                                        @category.Category.CategoryName
+                                    </span>
+                                }
+                            </td>
+
+                            <td>
+                                @foreach (var tech in item.ProjectSkillItems)
+                                {
+                                    <span class="badge bg-info text-dark me-1">
+                                        @tech.SkillItem.SkillItemTitle
+                                    </span>
+                                }
+                            </td>
+
+                            <td>@item.DisplayOrder</td>
+
+                            <td>
+                                @if (item.IsFeatured)
+                                {
+                                    <span class="badge bg-success">Evet</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Hayır</span>
+                                }
+                            </td>
+
+                            <td>@item.StatusText</td>
+
+                            <td>
+                                <a href="/Admin/Project/ProjectUpdate/@item.ProjectId"
+                                   class="btn btn-warning btn-sm">
+                                    <i class="bi bi-pencil-square"></i> Güncelle
+                                </a>
+
+                                <form asp-area="Admin"
+      asp-controller="Project"
+      asp-action="ProjectDelete"
+      asp-route-id="@item.ProjectId"
+      method="post"
+      class="d-inline delete-project-form">
+
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-danger btn-sm">
+        <i class="bi bi-trash"></i> Sil
+    </button>
+</form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        document.querySelectorAll(".delete-project-form").forEach(form => {
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: "Emin misiniz?",
+                    text: "Bu projeyi silmek istediğinize emin misiniz?",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Evet, sil",
+                    cancelButtonText: "Vazgeç"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                Swal.fire({
+                    title: "Başarılı!",
+                    text: @Html.Raw(System.Text.Json.JsonSerializer.Serialize(TempData["SuccessMessage"])),
+                    icon: "success",
+                    confirmButtonText: "Tamam"
+                });
+            </text>
+        }
+    </script>
+}

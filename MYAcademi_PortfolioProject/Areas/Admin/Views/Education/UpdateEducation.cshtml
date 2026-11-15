@@ -1,0 +1,73 @@
+﻿@model MYAcademi_PortfolioProject.Entities.Education
+
+@{
+    ViewData["Title"] = "UpdateEducation";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Eğitim Bilgisini Güncelle</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Eğitim Düzenleme Formu</div>
+                    </div>
+                    <form method="post">
+                        <!-- ID'yi gizli (hidden) olarak tutuyoruz ki güncellerken hangi kaydı güncellediğimizi bilelim -->
+                        <input type="hidden" asp-for="EducationId" />
+
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Eğitim Seviyesi (Derece)</label>
+                                <select asp-for="Degree" class="form-control">
+                                    <option value="">-- Eğitim Seviyesi Seçiniz --</option>
+                                    <option value="Ön Lisans">Ön Lisans</option>
+                                    <option value="Lisans">Lisans</option>
+                                    <option value="Yüksek Lisans">Yüksek Lisans</option>
+                                    <option value="Doktora">Doktora</option>
+                                </select>
+                                <span asp-validation-for="Degree" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Okul Adı</label>
+                                <input type="text" asp-for="SchoolName" class="form-control" />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Bölüm / Alan</label>
+                                <input type="text" asp-for="Department" class="form-control" />
+                                <span asp-validation-for="Department" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Açıklama</label>
+                                <textarea asp-for="Description" rows="4" class="form-control"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Kategori / Etiket</label>
+                                <select asp-for="Category" class="form-control">
+                                    <option value="">-- Kategori Seçiniz --</option>
+                                    <option value="Akademik">Akademik</option>
+                                    <option value="Mezuniyet">Mezuniyet</option>
+                                    <option value="Devam Ediyor">Devam Ediyor</option>
+                                    <option value="Sertifika">Sertifika</option>
+                                    <option value="Kurs">Kurs</option>
+                                </select>
+                                <span asp-validation-for="Category" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <button type="submit" class="btn btn-success">Değişiklikleri Kaydet</button>
+                            <a href="/Admin/Education/EducationList" class="btn btn-danger">İptal</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

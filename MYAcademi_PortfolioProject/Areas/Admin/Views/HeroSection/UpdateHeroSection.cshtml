@@ -1,0 +1,60 @@
+﻿@model MYAcademi_PortfolioProject.Entities.HeroSection
+
+@{
+    ViewData["Title"] = "Ana Sayfa Düzenle";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container">
+     <br /><br />
+    <h4 class="page-title">Ana Sayfa Bilgilerini Düzenle</h4>
+
+    <form method="post" enctype="multipart/form-data">
+
+        <input type="hidden" asp-for="HeroSectionId" />
+        <input type="hidden" asp-for="MainImageUrl" />
+
+        <div class="form-group">
+             <br />
+            <label>Karşılama Yazısı</label>
+            <input type="text" asp-for="Greeting" class="form-control" />
+            <span asp-validation-for="Greeting" class="text-danger"></span>
+        </div>
+         <br /><br />
+        <div class="form-group">
+            <label>Başlık</label>
+            <input type="text" asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+         <br /><br />
+        <div class="form-group">
+            <label>Açıklama</label>
+            <textarea asp-for="Description" class="form-control" rows="4"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+         <br /><br />
+        <div class="form-group">
+       <label>Mevcut Profil Fotoğrafı</label>
+         <br />
+        <img src="@Model.MainImageUrl"
+         width="150"
+         height="150"
+         style="object-fit: cover; border-radius: 8px;" />
+        </div>
+         <br /><br />
+        <div class="form-group">
+            <label>Profil Fotoğrafı Seç</label>
+           <input type="file"
+           name="imageFile"
+           class="form-control"
+           accept=".jpg,.jpeg,.png,.webp" />
+           <span asp-validation-for="MainImageUrl" class="text-danger"></span>
+       </div>
+       <br /><br />
+        <button type="submit" class="btn btn-primary">Kaydet</button>
+
+    </form>
+         @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+       }
+</div>

@@ -1,34 +1,242 @@
-﻿@model List<MYAcademi_PortfolioProject.Entities.Message>
+﻿
+@model List<MYAcademi_PortfolioProject.Entities.Message>
+
 @{
-   ViewData["Title"] = "Message List";
-   Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+    ViewData["Title"] = "Message List";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+    int count = 0;
 }
-  
+
 <div class="container">
     <br />
-   <table  class ="table table-bordered">
-      <tr>
-          <th>#</th>
-          <th>Gönderen</th>
-          <th>Konu</th>
-          <th>Tarih</th>
-          <th>Mesajı Aç</th>
-          <th>Mesajı Düzenle</th>
-          <th>Mesajı Sil</th>
-     </tr>
-       @foreach (var item in Model)
-       {
-           <tr>
-               <td>@item.MessageId</td>
-                <td>@item.SenderName</td>
-                <td>@item.Subject</td>
-                <td>@item.SendDate.ToString("dd.MM.yyyy")</td>
-                <td><a href="/Admin/Message/MessageDetails/@item.MessageId"  class="btn btn-info">Mesajı Aç</a></td>
-                <td><a href="/Admin/Message/UpdateMessage/@item.MessageId"  class="btn btn-success">Mesajı Düzenle</a></td>
-                <td><a href="/Admin/Message/DeleteMessage/@item.MessageId"  class="btn btn-danger">Mesajı Sil</a></td>
-           </tr>
-       }
-   </table>
+
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Gönderen</th>
+                <th>Konu</th>
+                <th>Tarih</th>
+                <th>Mesajı Aç</th>
+                <th>Mesajı Sil</th>
+            </tr>
+        </thead>
+
+       
+<tbody>
+    @foreach (var item in Model)
+    {
+        count++;
+
+        <tr>
+            <td>@count</td>
+            <td>@item.SenderName</td>
+            <td>@item.Subject</td>
+            <td>@item.SendDate.ToString("dd.MM.yyyy")</td>
+
+            <td>
+                <button type="button"
+                        class="btn btn-info"
+                        onclick="showMessage(@item.MessageId)">
+                    Mesajı Aç
+                </button>
+            </td>
+
+            <td>
+                <form asp-area="Admin"
+                      asp-controller="Message"
+                      asp-action="DeleteMessage"
+                      method="post"
+                      style="display:inline;"
+                      onsubmit="return confirmDeleteMessage(event)">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden"
+                           name="id"
+                           value="@item.MessageId" />
+
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-trash"></i>
+                        Sil
+                    </button>
+
+                </form>
+            </td>
+        </tr>
+    }
+</tbody>
+
+
+    </table>
+    
+@{
+    int currentPage = ViewBag.CurrentPage;
+    int totalPages = ViewBag.TotalPages;
+    int totalCount = ViewBag.TotalCount;
+    int startRecord = ViewBag.StartRecord;
+    int endRecord = ViewBag.EndRecord;
+}
+
+<div class="table-footer-area">
+
+    <div class="pagination-counter">
+        Toplam <strong>@totalCount</strong> kayıttan
+        <strong>@startRecord-@endRecord</strong> arası gösteriliyor
+    </div>
+
+    <ul class="custom-pagination">
+
+        <!-- Önceki -->
+        <li class="page-nav-item">
+            <a asp-action="MessageList"
+               asp-route-page="@(currentPage - 1)"
+               class="page-nav-btn @(currentPage == 1 ? "disabled" : "")">
+                <i class="bi bi-chevron-left"></i>
+            </a>
+        </li>
+
+        <!-- Sayfa Numaraları -->
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            <li class="page-nav-item">
+                <a asp-action="MessageList"
+                   asp-route-page="@i"
+                   class="page-nav-btn @(currentPage == i ? "active" : "")">
+                    @i
+                </a>
+            </li>
+        }
+
+        <!-- Sonraki -->
+        <li class="page-nav-item">
+            <a asp-action="MessageList"
+               asp-route-page="@(currentPage + 1)"
+               class="page-nav-btn @(currentPage == totalPages || totalPages == 0 ? "disabled" : "")">
+                <i class="bi bi-chevron-right"></i>
+            </a>
+        </li>
+
+    </ul>
+</div>
 
 </div>
+
+
+<!-- MESAJ DETAY MODALI -->
+<div class="modal fade" id="messageDetailModal" tabindex="-1">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="bi bi-envelope-open"></i>
+                    Mesaj Detayı
+                </h5>
+
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body" id="messageDetailContent">
+
+                <div class="text-center p-4">
+                    <div class="spinner-border text-primary"></div>
+                    <p class="mt-2">Mesaj yükleniyor...</p>
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-bs-dismiss="modal">
+                    Kapat
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function showMessage(id) {
+
+        var modalElement = document.getElementById('messageDetailModal');
+
+        var modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+
+        var content = document.getElementById('messageDetailContent');
+
+        content.innerHTML = `
+            <div class="text-center p-4">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-2">Mesaj yükleniyor...</p>
+            </div>`;
+
+        modal.show();
+
+        fetch('/Admin/Message/MessageDetail/' + id)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Mesaj yüklenemedi.');
+                }
+                return response.text();
+            })
+            .then(html => {
+                content.innerHTML = html;
+            })
+            .catch(error => {
+                content.innerHTML = `
+                    <div class="alert alert-danger">
+                        Mesaj yüklenirken bir hata oluştu.
+                    </div>`;
+                console.error(error);
+            });
+    }
+    
+function confirmDeleteMessage(event) {
+    event.preventDefault();
+
+    const form = event.target;
+
+    Swal.fire({
+        title: 'Emin misiniz?',
+        text: 'Bu mesaj kalıcı olarak silinecek!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Evet, sil!',
+        cancelButtonText: 'Vazgeç'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            form.submit();
+        }
+    });
+
+    return false;
+}
+
+
+</script>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        Swal.fire({
+            title: 'Başarılı!',
+            text: '@TempData["SuccessMessage"]',
+            icon: 'success',
+            confirmButtonText: 'Tamam'
+        });
+    </script>
+}
 

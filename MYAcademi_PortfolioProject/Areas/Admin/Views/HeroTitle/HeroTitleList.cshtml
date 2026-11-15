@@ -1,0 +1,134 @@
+﻿
+@model List<MYAcademi_PortfolioProject.Entities.HeroTitle>
+
+@{
+    ViewData["Title"] = "Animasyon Başlıkları";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+   
+}
+
+<div class="container">
+    <br />
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="page-title">Animasyon Başlıkları</h4>
+         <br />
+        <a href="/Admin/HeroTitle/CreateHeroTitle" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i>
+            Yeni Başlık Ekle
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Başlık</th>
+                            <th>Gösterim Sırası</th>
+                            <th>Durum</th>
+                            <th>İşlemler</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (Model != null && Model.Count > 0)
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.HeroTitleId</td>
+                                    <td>@item.Title</td>
+                                    <td>@item.Order</td>
+
+                                    <td>
+                                        @if (item.IsActive)
+                                        {
+                                            <span class="badge bg-success">Aktif</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">Pasif</span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <a href="/Admin/HeroTitle/UpdateHeroTitle/@item.HeroTitleId"
+                                           class="btn btn-sm btn-warning">
+                                            <i class="bi bi-pencil-square"></i>
+                                            Düzenle
+                                        </a>
+
+                                        <form method="post"
+      action="/Admin/HeroTitle/DeleteHeroTitle/@item.HeroTitleId"
+      style="display:inline;"
+      onsubmit="return confirmDelete(event, this)">
+
+    @Html.AntiForgeryToken()
+
+    <button type="submit" class="btn btn-sm btn-danger">
+        <i class="bi bi-trash"></i>
+        Sil
+    </button>
+
+</form>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    Henüz animasyon başlığı eklenmemiş.
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script>
+        async function confirmDelete(event, form) {
+
+            event.preventDefault();
+
+            const result = await Swal.fire({
+                title: 'Emin misiniz?',
+                text: 'Bu animasyon başlığını silmek istediğinize emin misiniz?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Evet, Sil',
+                cancelButtonText: 'Vazgeç'
+            });
+
+            if (result.isConfirmed) {
+                form.submit();
+            }
+        }
+
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>
+                Swal.fire({
+                    title: 'Başarılı!',
+                    text: '@TempData["SuccessMessage"]',
+                    icon: 'success',
+                    confirmButtonText: 'Tamam'
+                });
+            </text>
+        }
+    </script>
+
+}

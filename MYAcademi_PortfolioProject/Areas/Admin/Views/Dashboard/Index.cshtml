@@ -2,6 +2,7 @@
     ViewData["Title"] = "Dashboard";
     Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
 
+
     // Dinamik veriler (controller'dan)
     int total = ViewBag.v1;
     int unread = ViewBag.v2;
@@ -9,15 +10,11 @@
     int rate = total == 0 ? 0 : read * 100 / total;
 
     // Statik (UI) veriler
-    var labels = new[] { "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz" };
-    var counts = new[] { 4, 7, 3, 9, 6, 2, 5 };
-    int max = counts.Max();
-    var last = new[] {
-        (Name: "Ayşe Yılmaz",  Subject: "Proje teklifi",      Text: "Merhaba, web siteniz için bir teklif almak istiyorum.", Date: "03 Kas, 14:20", IsRead: false),
-        (Name: "Mehmet Kaya",  Subject: "İş birliği",         Text: "Portfolyonuzu inceledim, birlikte çalışmak isteriz.",   Date: "02 Kas, 10:05", IsRead: false),
-        (Name: "Zeynep Demir", Subject: "Teşekkürler",        Text: "Geçen haftaki görüşme için teşekkür ederim.",            Date: "01 Kas, 18:42", IsRead: true),
-        (Name: "Can Öztürk",   Subject: "Staj başvurusu",     Text: "Ekibinizde staj imkânı olup olmadığını öğrenmek isterim.", Date: "31 Eki, 09:15", IsRead: true)
-    };
+    var labels = (List<string>)ViewBag.Labels;
+var counts = (List<int>)ViewBag.Counts;
+var last = (List<MYAcademi_PortfolioProject.Entities.Message>)ViewBag.LastMessages;
+
+int max = counts.Max();
 }
 
 <style>
@@ -210,9 +207,177 @@
         padding: .3rem .6rem;
         border-radius: 20px;
     }
+    .portfolio-stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.portfolio-stat-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 24px 20px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+    border-left: 5px solid transparent;
+}
+
+.portfolio-stat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.portfolio-stat-icon {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+}
+
+.portfolio-stat-info span {
+    font-size: 13px;
+    color: #777;
+    font-weight: 600;
+}
+
+.portfolio-stat-info h2 {
+    font-size: 30px;
+    font-weight: 800;
+    margin: 5px 0;
+}
+
+.portfolio-stat-info small {
+    font-size: 11px;
+    color: #999;
+}
+
+/* Mavi */
+.experience-card {
+    border-color: #3B82F6;
+}
+.experience-card .portfolio-stat-icon {
+    background: #DBEAFE;
+    color: #2563EB;
+}
+.experience-card h2 {
+    color: #2563EB;
+}
+
+/* Yeşil */
+.project-card {
+    border-color: #10B981;
+}
+.project-card .portfolio-stat-icon {
+    background: #D1FAE5;
+    color: #059669;
+}
+.project-card h2 {
+    color: #059669;
+}
+
+/* Turuncu */
+.skill-card {
+    border-color: #F59E0B;
+}
+.skill-card .portfolio-stat-icon {
+    background: #FEF3C7;
+    color: #D97706;
+}
+.skill-card h2 {
+    color: #D97706;
+}
+
+/* Mor */
+.active-card {
+    border-color: #A855F7;
+}
+.active-card .portfolio-stat-icon {
+    background: #F3E8FF;
+    color: #9333EA;
+}
+.active-card h2 {
+    color: #9333EA;
+}
+
+@@media (max-width: 992px) {
+    .portfolio-stat-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@@media (max-width: 576px) {
+    .portfolio-stat-grid {
+        grid-template-columns: 1fr;
+    }
+}
 </style>
 
 <div class="db container-fluid py-3">
+     <!-- Portfolyo istatistik kartları -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-6 col-xl-3">
+            <div class="portfolio-stat-card experience-card">
+                <div class="portfolio-stat-icon">
+                    <i class="bi bi-briefcase-fill"></i>
+                </div>
+                <div class="portfolio-stat-info">
+                    <span>Toplam Deneyim</span>
+                    <h2>@ViewBag.TotalExperience</h2>
+                    <small>Deneyim kayıtlarınız</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="portfolio-stat-card project-card">
+                <div class="portfolio-stat-icon">
+                    <i class="bi bi-folder-fill"></i>
+                </div>
+                <div class="portfolio-stat-info">
+                    <span>Toplam Proje</span>
+                    <h2>@ViewBag.TotalProject</h2>
+                    <small>Portfolyo projeleriniz</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="portfolio-stat-card skill-card">
+                <div class="portfolio-stat-icon">
+                    <i class="bi bi-lightbulb-fill"></i>
+                </div>
+                <div class="portfolio-stat-info">
+                    <span>Toplam Yetenek</span>
+                    <h2>@ViewBag.TotalSkill</h2>
+                    <small>Kayıtlı yetenekleriniz</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="portfolio-stat-card active-card">
+                <div class="portfolio-stat-icon">
+                    <i class="bi bi-rocket-takeoff-fill"></i>
+                </div>
+                <div class="portfolio-stat-info">
+                    <span>Öne Çıkarılan Proje</span>
+                    <h2>@ViewBag.ActiveProject</h2>
+                    <small>Öne çıkarılmış projeleriniz</small>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 
     <!-- Dinamik istatistik kartları -->
     <div class="row g-4 mb-4">
@@ -244,13 +409,15 @@
                 <div class="db-title">Son 7 Gün <small>Günlük gelen mesajlar</small></div>
                 <div class="bars">
                     @for (int i = 0; i < 7; i++)
-                    {
-                        <div class="bar">
-                            <b>@counts[i]</b>
-                            <div class="bar-fill" style="height:@(counts[i] * 100 / max)%"></div>
-                            <span>@labels[i]</span>
-                        </div>
-                    }
+{
+    <div class="bar">
+        <b>@counts[i]</b>
+        <div class="bar-fill"
+             style="height:@(max == 0 ? 0 : counts[i] * 100 / max)%">
+        </div>
+        <span>@labels[i]</span>
+    </div>
+}
                 </div>
             </div>
         </div>
@@ -275,25 +442,40 @@
             <a asp-area="Admin" asp-controller="Message" asp-action="MessageList" class="small text-decoration-none" style="color:var(--g)">Tümünü gör →</a>
         </div>
 
-        @foreach (var m in last)
+        
+@foreach (var m in last)
+{
+    <div class="msg-row">
+
+        <div class="avatar">
+            @(string.IsNullOrWhiteSpace(m.SenderName)
+                ? "?"
+                : m.SenderName.Substring(0, 1).ToUpper())
+        </div>
+
+        <div class="msg-body">
+            <strong>@m.SenderName</strong>
+            · <span class="small">@m.Subject</span>
+
+            <p>@m.MessageDetail</p>
+        </div>
+
+        <small class="text-muted d-none d-md-block">
+            @m.SendDate.ToString("dd.MM.yyyy HH:mm")
+        </small>
+
+        @if (m.IsRead)
         {
-            <div class="msg-row">
-                <div class="avatar">@m.Name.Substring(0, 1)</div>
-                <div class="msg-body">
-                    <strong>@m.Name</strong> · <span class="small">@m.Subject</span>
-                    <p>@m.Text</p>
-                </div>
-                <small class="text-muted d-none d-md-block">@m.Date</small>
-                @if (m.IsRead)
-                {
-                    <span class="badge-soft c-blue">Okundu</span>
-                }
-                else
-                {
-                    <span class="badge-soft c-rose">Yeni</span>
-                }
-            </div>
+            <span class="badge-soft c-blue">Okundu</span>
         }
+        else
+        {
+            <span class="badge-soft c-rose">Yeni</span>
+        }
+
+    </div>
+}
+
     </div>
 </div>
 

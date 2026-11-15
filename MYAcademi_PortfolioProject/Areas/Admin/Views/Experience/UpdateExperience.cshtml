@@ -1,0 +1,75 @@
+﻿@model MYAcademi_PortfolioProject.Entities.Experience
+
+@{
+    ViewData["Title"] = "Deneyim Güncelle";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container">
+
+    <h4 class="page-title">Deneyim Güncelle</h4>
+
+    <div class="card">
+        <div class="card-body">
+
+            <form asp-area="Admin"
+                  asp-controller="Experience"
+                  asp-action="UpdateExperience"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="ExperienceId" />
+
+                <div class="mb-3">
+                    <label class="form-label">Deneyim Başlığı</label>
+                    <input asp-for="Title" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Şirket / Kurum</label>
+                    <input asp-for="CompanyName" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Kategori</label>
+                    <select asp-for="CategoryName" class="form-control">
+                        <option value="Software Testing">Software Testing</option>
+                        <option value="Test Automation">Test Automation</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Education">Education</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Açıklama</label>
+                    <textarea asp-for="Description"
+                              class="form-control"
+                              rows="5"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Durum</label>
+                    <select asp-for="IsActive" class="form-control">
+                        <option value="true">Aktif</option>
+                        <option value="false">Pasif</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Güncelle
+                </button>
+
+                <a asp-area="Admin"
+                   asp-controller="Experience"
+                   asp-action="ExperienceList"
+                   class="btn btn-secondary">
+                    İptal
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>

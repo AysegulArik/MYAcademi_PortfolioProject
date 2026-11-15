@@ -1,0 +1,63 @@
+﻿@model List<Education>
+@{
+    ViewData["Title"] = "EducationList";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+}
+
+<div class="container">
+    <br />
+    <table class="table table-bordered">
+        <tr>
+            <th>#</th>
+            <th>Okul Adı</th>
+            <th>Bölüm</th>
+            <th>Açıklama</th>
+            <th>Derece</th>
+            <th>Durum</th>
+            <th>Eğitimi Düzenle</th>
+            <th>Eğitimi Sil</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            count++;
+            <tr>
+                <td>@count</td>
+                <td>@item.SchoolName</td>
+                <td>@item.Department</td>
+                <td>@item.Description</td>
+                <td>@item.Degree</td>
+                <td>@item.Category</td>
+                <td><a href="/Admin/Education/UpdateEducation/@item.EducationId" class="btn btn-success">Eğitimi Düzenle</a></td>
+                <td> <button type="button" onclick="deleteEducation(@item.EducationId)" class="btn btn-danger">Eğitimi Sil</button> </td>
+              
+            </tr>
+
+        }
+       
+    </table>
+    <a href="/Admin/Education/CreateEducation" class="btn btn-primary">Yeni Eğitim Ekle</a>
+
+</div>
+
+@section Scripts {
+    <script>
+        function deleteEducation(id) {
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: "Bu eğitim kaydı kalıcı olarak silinecektir!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Evet, Sil!',
+                cancelButtonText: 'İptal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Kullanıcı "Evet, Sil" derse ilgili Controller action'ına yönlendirir
+                    window.location.href = '/Admin/Education/DeleteEducation/' + id;
+                }
+            })
+        }
+    </script>
+}

@@ -1,0 +1,60 @@
+﻿
+@model MYAcademi_PortfolioProject.Entities.Message
+
+<div class="container-fluid">
+
+    <div class="row g-4">
+
+        <div class="col-md-6">
+            <label class="form-label text-muted">Gönderen</label>
+            <div class="form-control">
+                @Model.SenderName
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label text-muted">E-posta Adresi</label>
+            <div class="form-control">
+                @Model.SenderEmail
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label text-muted">Konu</label>
+            <div class="form-control">
+                @Model.Subject
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <label class="form-label text-muted">Gönderim Tarihi</label>
+            <div class="form-control">
+                @Model.SendDate.ToString("dd.MM.yyyy HH:mm")
+            </div>
+        </div>
+
+        <div class="col-12">
+
+            <label class="form-label text-muted">
+                Mesaj İçeriği
+            </label>
+
+            <div class="form-control"
+                 style="min-height:180px; white-space:pre-wrap; overflow-wrap:anywhere;">
+                @Model.MessageDetail
+            </div>
+
+        </div>
+
+        <div class="col-12 text-end">
+
+            <span class="badge bg-success">
+                <i class="bi bi-check-circle"></i>
+                Okundu
+            </span>
+
+        </div>
+
+    </div>
+
+</div>

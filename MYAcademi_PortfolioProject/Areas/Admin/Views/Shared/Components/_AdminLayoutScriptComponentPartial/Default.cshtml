@@ -4,32 +4,48 @@
 }
 
 <script>
+    // Sidebar Submenu Toggle
+document.querySelectorAll('.submenu-toggle').forEach(menu => {
+    menu.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const parent = this.closest('.has-submenu');
+
+        if (parent) {
+            parent.classList.toggle('active');
+        }
+    });
+});
   // Mobile Sidebar Toggle
-  const sidebar = document.getElementById('adminSidebar');
+ const sidebar = document.getElementById('adminSidebar');
   const sidebarToggle = document.getElementById('sidebarToggle');
 
-  sidebarToggle.addEventListener('click', () => {
-    sidebar.classList.toggle('show-sidebar');
-  });
+if (sidebarToggle && sidebar) {
+    sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('show-sidebar');
+    });
+}
 
-  // Close sidebar when clicking outside on mobile
-  document.addEventListener('click', (e) => {
-    if (window.innerWidth <= 991.98) {
-      if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
-        sidebar.classList.remove('show-sidebar');
-      }
+// Close sidebar when clicking outside on mobile
+document.addEventListener('click', (e) => {
+    if (window.innerWidth <= 991.98 && sidebar && sidebarToggle) {
+        if (!sidebar.contains(e.target) && !sidebarToggle.contains(e.target)) {
+            sidebar.classList.remove('show-sidebar');
+        }
     }
-  });
+});
 
   // Select All Checkbox Handler
-  const selectAll = document.getElementById('selectAllCheckbox');
-  const rowCheckboxes = document.querySelectorAll('.row-select-checkbox');
+const selectAll = document.getElementById('selectAllCheckbox');
+const rowCheckboxes = document.querySelectorAll('.row-select-checkbox');
 
-  selectAll.addEventListener('change', () => {
-    rowCheckboxes.forEach(cb => {
-      cb.checked = selectAll.checked;
+if (selectAll) {
+    selectAll.addEventListener('change', () => {
+        rowCheckboxes.forEach(cb => {
+            cb.checked = selectAll.checked;
+        });
     });
-  });
+}
 
   // Search Filter Table
   const searchInput = document.getElementById('tableSearchInput');
@@ -54,32 +70,38 @@
         row.style.display = 'none';
       }
     });
-  }
-
-  searchInput.addEventListener('input', filterTable);
-  statusFilter.addEventListener('change', filterTable);
+  } 
+if (searchInput && statusFilter) {
+    searchInput.addEventListener('input', filterTable);
+    statusFilter.addEventListener('change', filterTable);
+}
 
   // Sorting
   const sortSelect = document.getElementById('sortSelect');
-  sortSelect.addEventListener('change', () => {
-    const tbody = document.getElementById('experienceTableBody');
-    const rows = Array.from(tableRows);
+  if (sortSelect) {
+    sortSelect.addEventListener('change', () => {
+        const tbody = document.getElementById('experienceTableBody');
 
-    if (sortSelect.value === 'order-asc') {
-      rows.sort((a, b) => parseInt(a.dataset.order) - parseInt(b.dataset.order));
-    } else if (sortSelect.value === 'order-desc') {
-      rows.sort((a, b) => parseInt(b.dataset.order) - parseInt(a.dataset.order));
-    } else if (sortSelect.value === 'title-asc') {
-      rows.sort((a, b) => {
-        const titleA = a.querySelector('.exp-title-text').innerText;
-        const titleB = b.querySelector('.exp-title-text').innerText;
-        return titleA.localeCompare(titleB, 'tr');
-      });
-    }
+        if (!tbody) return;
 
-    rows.forEach(r => tbody.appendChild(r));
-    showToast('Sıralama Güncellendi', 'Deneyimler seçilen kritere göre dizildi.');
-  });
+        const rows = Array.from(tableRows);
+
+        if (sortSelect.value === 'order-asc') {
+            rows.sort((a, b) => parseInt(a.dataset.order) - parseInt(b.dataset.order));
+        } else if (sortSelect.value === 'order-desc') {
+            rows.sort((a, b) => parseInt(b.dataset.order) - parseInt(a.dataset.order));
+        } else if (sortSelect.value === 'title-asc') {
+            rows.sort((a, b) => {
+                const titleA = a.querySelector('.exp-title-text')?.innerText || '';
+                const titleB = b.querySelector('.exp-title-text')?.innerText || '';
+                return titleA.localeCompare(titleB, 'tr');
+            });
+        }
+
+        rows.forEach(r => tbody.appendChild(r));
+        showToast('Sıralama Güncellendi', 'Deneyimler seçilen kritere göre dizildi.');
+    });
+}
 
   // Modal Handlers
   const modal = document.getElementById('experienceModal');
@@ -108,16 +130,22 @@
   }
 
   // Toast Functionality
+ 
   function showToast(title, message) {
     const toast = document.getElementById('actionToast');
-    document.getElementById('toastTitle').innerText = title;
-    document.getElementById('toastMsg').innerText = message;
-    toast.classList.add('show');
-    setTimeout(() => {
-      toast.classList.remove('show');
-    }, 3200);
-  }
+    const toastTitle = document.getElementById('toastTitle');
+    const toastMsg = document.getElementById('toastMsg');
 
+    if (!toast || !toastTitle || !toastMsg) return;
+
+    toastTitle.innerText = title;
+    toastMsg.innerText = message;
+    toast.classList.add('show');
+
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3200);
+}
   // CRUD Actions
   function viewRecord(id) {
     showToast('Önizleme', '#' + id + ' numaralı deneyim detayları görüntülendi.');
@@ -160,20 +188,53 @@
   }
 
   // Buttons quick listeners
-  document.getElementById('btnRefreshTable').addEventListener('click', () => {
-    searchInput.value = '';
-    statusFilter.value = 'all';
-    filterTable();
-    showToast('Yenilendi', 'Tablo verileri tazelendi.');
-  });
+  const btnRefreshTable = document.getElementById('btnRefreshTable');
 
-  document.getElementById('btnExport').addEventListener('click', () => {
-    showToast('Dışa Aktarma', 'Deneyim kayıtları CSV/Excel formatında hazırlandı.');
-  });
+if (btnRefreshTable) {
+    btnRefreshTable.addEventListener('click', () => {
+        if (searchInput && statusFilter) {
+            searchInput.value = '';
+            statusFilter.value = 'all';
+            filterTable();
+        }
 
-  document.getElementById('btnLogout').addEventListener('click', () => {
-    if (confirm('Yönetim panelinden çıkış yapmak istiyor musunuz?')) {
-      showToast('Oturum Kapatılıyor', 'Giriş ekranına yönlendiriliyorsunuz...');
-    }
-  });
-</script>
+        showToast('Yenilendi', 'Tablo verileri tazelendi.');
+    });
+}
+
+const btnExport = document.getElementById('btnExport');
+
+if (btnExport) {
+    btnExport.addEventListener('click', () => {
+        showToast('Dışa Aktarma', 'Deneyim kayıtları CSV/Excel formatında hazırlandı.');
+    });
+}
+
+const btnLogout = document.getElementById('btnLogout');
+
+if (btnLogout) {
+    btnLogout.addEventListener('click', () => {
+        if (confirm('Yönetim panelinden çıkış yapmak istiyor musunuz?')) {
+            showToast('Oturum Kapatılıyor', 'Giriş ekranına yönlendiriliyorsunuz...');
+        }
+    });
+}
+// Experience Detail Modal
+const detailModal = document.getElementById('experienceDetailModal');
+
+if (detailModal) {
+    detailModal.addEventListener('show.bs.modal', function (event) {
+
+        const button = event.relatedTarget;
+
+        document.getElementById('detailTitle').textContent = button.dataset.title;
+        document.getElementById('detailCompany').textContent = button.dataset.company;
+        document.getElementById('detailCategory').textContent = button.dataset.category;
+        document.getElementById('detailDescription').textContent = button.dataset.description;
+        document.getElementById('detailStatus').textContent = button.dataset.status;
+
+    });
+}
+ 
+ </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,0 +1,82 @@
+﻿@model MYAcademi_PortfolioProject.Entities.Experience
+
+@{
+    ViewData["Title"] = "Yeni Deneyim Ekle";
+    Layout = "~/Areas/Admin/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="container">
+
+    <br />
+
+    <h4 class="page-title">Yeni Deneyim Ekle</h4>
+
+    <div class="card">
+        <div class="card-body">
+
+            <form asp-area="Admin"
+                  asp-controller="Experience"
+                  asp-action="CreateExperience"
+                  method="post">
+
+                @Html.AntiForgeryToken()
+
+                <div class="form-group mb-3">
+                    <label>Deneyim Başlığı</label>
+                    <input type="text"
+                           asp-for="Title"
+                           class="form-control"
+                           required />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Şirket / Kurum Adı</label>
+                    <input type="text"
+                           asp-for="CompanyName"
+                           class="form-control"
+                           required />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Açıklama</label>
+                    <textarea asp-for="Description"
+                              class="form-control"
+                              rows="4"
+                              required></textarea>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Kategori</label>
+                    <select asp-for="CategoryName" class="form-select" required>
+                        <option value="">Kategori Seçiniz</option>
+                        <option value="Software Testing">Software Testing</option>
+                        <option value="Test Automation">Test Automation</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Education">Education</option>
+                    </select>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input type="checkbox"
+                           asp-for="IsActive"
+                           class="form-check-input" />
+
+                    <label class="form-check-label" asp-for="IsActive">
+                        Aktif (Portfolyoda Göster)
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Kaydet
+                </button>
+
+                <a href="/Admin/Experience/ExperienceList"
+                   class="btn btn-secondary">
+                    Vazgeç
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+</div>
