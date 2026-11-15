@@ -52,35 +52,35 @@ Proje; kişisel bilgilerin, deneyimlerin, projelerin ve yeteneklerin dinamik ola
 
 ### Ana Sayfa
 
-![Ana Sayfa](MYAcademi_PortfolioProject/docs/screenshots/homepage.jpg)
+![Ana Sayfa](MYAcademi_PortfolioProject/docs/screenshots/homepage.jpeg)
 
 ### İletişim Sayfası
 
-![İletişim Sayfası](MYAcademi_PortfolioProject/docs/screenshots/contact.jpg)
+![İletişim Sayfası](MYAcademi_PortfolioProject/docs/screenshots/contact.jpeg)
 
 ### Yönetim Paneli (Dashboard)
 
-![Dashboard](docs/screenshots/dashboard.jpg)
+![Dashboard](MYAcademi_PortfolioProject/docs/screenshots/dashboard.jpeg)
 
 ### Deneyim Yönetimi
 
-![Deneyim Listesi](docs/screenshots/experiences.jpg)
+![Deneyim Listesi](MYAcademi_PortfolioProject/docs/screenshots/experiences.jpeg)
 
 ### Proje Yönetimi
 
-![Proje Listesi](docs/screenshots/projects.jpg)
+![Proje Listesi](MYAcademi_PortfolioProject/docs/screenshots/projects.jpeg)
 
 ### Yetenek Yönetimi
 
-![Yetenek Listesi](docs/screenshots/skills.jpg)
+![Yetenek Listesi](MYAcademi_PortfolioProject/docs/screenshots/skills.jpeg)
 
 ### Mesaj Yönetimi
 
-![Mesaj Listesi](docs/screenshots/messages.jpg)
+![Mesaj Listesi](MYAcademi_PortfolioProject/docs/screenshots/messages.jpeg)
 
 ### Mesaj Detay Modalı
 
-![Mesaj Detayı](docs/screenshots/message-detail.jpg)
+![Mesaj Detayı](MYAcademi_PortfolioProject/docs/screenshots/message-detail.jpeg)
 
 ---
 ## Proje Yapısı
